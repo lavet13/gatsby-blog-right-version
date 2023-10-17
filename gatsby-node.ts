@@ -14,8 +14,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   // });
 
   createSlice({
-    id: `header`,
-    component: path.resolve('./src/components/header.tsx'),
+    id: `theme-toggle`,
+    component: path.resolve('./src/components/toggle-theme.component.tsx'),
   });
 };
 

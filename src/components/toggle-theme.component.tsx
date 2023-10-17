@@ -3,20 +3,18 @@ import React, { FC } from 'react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react';
 
-import type { PageProps } from 'gatsby';
-import useIsClient from '../hooks/use-is-client';
+import type { PageProps, SliceComponentProps } from 'gatsby';
 
 type ThemeToggleProps = {
   colorScheme?: string;
 };
 
-const ThemeToggle: FC<Partial<ThemeToggleProps & PageProps>> = ({
-  colorScheme,
-  pageContext,
-}) => {
+const ThemeToggle: FC<
+  Partial<ThemeToggleProps & PageProps & SliceComponentProps>
+> = ({ colorScheme }) => {
   const { toggleColorMode: toggleMode } = useColorMode();
 
-  const ToggleIcon = useColorModeValue(SunIcon, MoonIcon);
+  const ToggleIcon = useColorModeValue(MoonIcon, SunIcon);
 
   return (
     <IconButton
