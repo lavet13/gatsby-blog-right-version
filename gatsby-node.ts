@@ -18,16 +18,3 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     component: path.resolve('./src/components/toggle-theme.component.tsx'),
   });
 };
-
-// export const onCreatePage: GatsbyNode['onCreatePage'] = async ({
-//   page,
-//   actions,
-// }) => {
-//   const { createPage } = actions;
-
-//   if (page.path.match(/^\/image-url/)) {
-//     page.matchPath = '/image-url/*';
-
-//     createPage(page);
-//   }
-// };

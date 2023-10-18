@@ -4,9 +4,6 @@ const config: GatsbyConfig = {
   siteMetadata: {
     siteUrl: `https://www.yourdomain.tld`,
   },
-  flags: {
-    DEV_SSR: true,
-  },
   graphqlTypegen: true,
   plugins: [
     {
