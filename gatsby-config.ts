@@ -13,6 +13,7 @@ const config: GatsbyConfig = {
       resolve: '@chakra-ui/gatsby-plugin',
       options: {
         resetCSS: true,
+        portalZIndex: undefined,
       },
     },
     `gatsby-plugin-image`,

@@ -17,10 +17,15 @@ const SomePage: FC<RouteComponentProps> = () => {
 };
 
 const ImageUrl: FC<PageProps> = () => {
+  const { isClient, key } = useIsClient();
+
+  if (!isClient) return null;
+
   return (
-    <Router>
-      <ImagePage path='/image-url/image' />
-      <SomePage path='/image-url/some-page' />
+    <Router key={key} basepath='image-url'>
+      <Home path='/' />
+      <ImagePage path='/image' />
+      <SomePage path='/some-page' />
     </Router>
   );
 };

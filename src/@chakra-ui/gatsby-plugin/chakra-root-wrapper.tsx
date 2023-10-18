@@ -6,9 +6,14 @@ import theme from './theme';
 export const ChakraWrapper: FC<ChakraProviderProps> = ({
   children,
   resetCSS = true,
+  portalZIndex,
 }) => {
   return (
-    <ChakraProvider theme={theme} resetCSS={resetCSS}>
+    <ChakraProvider
+      theme={theme}
+      resetCSS={resetCSS}
+      portalZIndex={portalZIndex}
+    >
       {children}
     </ChakraProvider>
   );
