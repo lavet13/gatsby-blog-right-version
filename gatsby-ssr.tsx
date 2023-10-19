@@ -7,7 +7,8 @@ import { ColorModeScript } from '@chakra-ui/react';
 import theme from './src/@chakra-ui/gatsby-plugin/theme';
 
 import { Provider } from 'react-redux';
-import { store } from './src/redux/store';
+import { store, persistor } from './src/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 import { ApolloWrapper } from './src/apollo/apollo-wrapper';
 
@@ -25,9 +26,11 @@ export const wrapRootElement: GatsbySSR['wrapRootElement'] = (
   pluginOptions
 ) => (
   <Provider store={store}>
-    <ApolloWrapper>
-      <ChakraWrapper {...pluginOptions}>{element}</ChakraWrapper>
-    </ApolloWrapper>
+    <PersistGate loading={null} persistor={persistor}>
+      <ApolloWrapper>
+        <ChakraWrapper {...pluginOptions}>{element}</ChakraWrapper>
+      </ApolloWrapper>
+    </PersistGate>
   </Provider>
 );
 
