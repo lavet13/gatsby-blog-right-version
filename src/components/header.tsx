@@ -10,8 +10,11 @@ const Header: FC = () => {
   const { isClient, key } = useIsClient();
 
   return (
-    <Flex key={key} as='nav' justifyContent='flex-end'>
-      <Flex columnGap={2}>
+    <Flex key={key} as='nav' justifyContent='flex-end' alignItems='center'>
+      <Flex columnGap={3} pr={2}>
+        <Link as={GatsbyLink} to='/messages'>
+          messages
+        </Link>
         <Link as={GatsbyLink} to='/image-url'>
           imageUrl
         </Link>

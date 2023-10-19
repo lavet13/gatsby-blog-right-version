@@ -1,9 +1,15 @@
 import React from 'react';
 import type { GatsbySSR } from 'gatsby';
+
 import Layout from './src/components/layout.component';
-import { ChakraWrapper } from './src/@chakra-ui/gatsby-plugin/chakra-root-wrapper';
+import { ChakraWrapper } from './src/@chakra-ui/gatsby-plugin/chakra-wrapper';
 import { ColorModeScript } from '@chakra-ui/react';
 import theme from './src/@chakra-ui/gatsby-plugin/theme';
+
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
+
+import { ApolloWrapper } from './src/apollo/apollo-wrapper';
 
 export const onRenderBody = ({ setPreBodyComponents }) => {
   setPreBodyComponents([
@@ -17,7 +23,13 @@ export const onRenderBody = ({ setPreBodyComponents }) => {
 export const wrapRootElement: GatsbySSR['wrapRootElement'] = (
   { element },
   pluginOptions
-) => <ChakraWrapper {...pluginOptions}>{element}</ChakraWrapper>;
+) => (
+  <Provider store={store}>
+    <ApolloWrapper>
+      <ChakraWrapper {...pluginOptions}>{element}</ChakraWrapper>
+    </ApolloWrapper>
+  </Provider>
+);
 
 export const wrapPageElement: GatsbySSR['wrapPageElement'] = ({ element }) => (
   <Layout>{element}</Layout>

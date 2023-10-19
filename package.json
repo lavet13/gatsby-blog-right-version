@@ -19,11 +19,16 @@
     "theme:watch": "chakra-cli tokens path/to/theme.ts --watch"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.6",
     "@chakra-ui/gatsby-plugin": "^3.1.1",
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@manaflair/redux-batch": "^1.0.0",
+    "@reduxjs/toolkit": "^1.9.7",
+    "cross-fetch": "^4.0.0",
+    "date-fns": "^2.30.0",
     "framer-motion": "^10.10.0",
     "gatsby": "^5.11.0",
     "gatsby-plugin-image": "^3.12.1",
@@ -31,13 +36,19 @@
     "gatsby-source-filesystem": "^5.12.0",
     "gatsby-transformer-sharp": "^5.12.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.3",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "redux-saga": "^1.2.3",
+    "typed-redux-saga": "^1.5.0"
   },
   "devDependencies": {
-    "@chakra-ui/cli": "^2.3.0",
+    "@chakra-ui/cli": "^2.4.1",
     "@types/node": "^18.15.8",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
+    "@types/redux-logger": "^3.0.10",
     "typescript": "^5.0.2"
   }
 }

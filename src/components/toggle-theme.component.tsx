@@ -19,6 +19,7 @@ const ThemeToggle: FC<
   return (
     <IconButton
       colorScheme={colorScheme}
+      variant='ghost'
       icon={<ToggleIcon />}
       aria-label='Toggle Theme'
       onClick={toggleMode}
