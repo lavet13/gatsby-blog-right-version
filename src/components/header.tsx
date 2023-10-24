@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import React, { FC } from 'react';
 
 import { Slice } from 'gatsby';
-import useIsClient from '../hooks/use-is-client';
+import useIsClient from '../common/hooks/use-is-client';
 import { Link } from '@chakra-ui/react';
 import { Link as GatsbyLink } from 'gatsby';
 
@@ -12,6 +12,12 @@ const Header: FC = () => {
   return (
     <Flex key={key} as='nav' justifyContent='flex-end' alignItems='center'>
       <Flex columnGap={3} pr={2}>
+        <Link as={GatsbyLink} to='/my-page'>
+          my page
+        </Link>
+        <Link as={GatsbyLink} to='/roles'>
+          roles
+        </Link>
         <Link as={GatsbyLink} to='/messages'>
           messages
         </Link>

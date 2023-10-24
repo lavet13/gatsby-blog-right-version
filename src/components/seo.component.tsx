@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useSiteMetadata } from '../hooks/use-site-metadata';
+import { useSiteMetadata } from '../common/hooks/use-site-metadata';
 import { NonNullableFields } from '../common/types/types';
 
 type SeoProps = {

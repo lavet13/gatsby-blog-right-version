@@ -6,9 +6,10 @@ import {
   from,
   split,
 } from '@apollo/client';
-// import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-// import { createClient } from 'graphql-ws';
-// import { getMainDefinition } from '@apollo/client/utilities';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { RetryLink } from '@apollo/client/link/retry';
 
@@ -46,13 +47,27 @@ const retryLink = new RetryLink();
 //   ),
 //   new HttpLink({ uri: 'http://localhost:4000/graphql', fetch })
 // );
+
 const httpLink = new HttpLink({ uri: 'http://localhost:4000/graphql', fetch });
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  console.log({ token });
+
+  return {
+    headers: {
+      ...headers,
+      'x-token': token ? token : '',
+    },
+  };
+});
 
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
+  ssrMode: true,
   cache,
-  link: from([errorLink, retryLink, httpLink]),
+  link: from([errorLink, retryLink, authLink, httpLink]),
   defaultOptions: {
     watchQuery: {
       notifyOnNetworkStatusChange: true,

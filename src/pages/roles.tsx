@@ -4,14 +4,13 @@ import type { HeadFC, PageProps } from 'gatsby';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
-  selectMessageError,
-  selectMessageIsLoading,
-  selectMessagesEdges,
-  selectMessagesPageInfo,
-  selectMessagesTotalCount,
-} from '../redux/features/message/message.selector';
+  selectRoles,
+  selectRolesError,
+  selectRolesIsLoading,
+} from '../redux/features/role/role.selector';
 
-import { fetchMessagesStarted } from '../redux/features/message/message.slice';
+import { fetchRolesStarted } from '../redux/features/role/role.slice';
+
 import {
   Alert,
   AlertDescription,
@@ -29,51 +28,48 @@ import {
 } from '@chakra-ui/react';
 import SEO from '../components/seo.component';
 
-const Messages: FC<PageProps> = () => {
+const Roles: FC<PageProps> = () => {
   const dispatch = useDispatch();
 
-  const messageEdges = useSelector(selectMessagesEdges);
-  const messagesPageInfo = useSelector(selectMessagesPageInfo);
-  const messagesTotalCount = useSelector(selectMessagesTotalCount);
-  const messageIsLoading = useSelector(selectMessageIsLoading);
-  const messageError = useSelector(selectMessageError);
+  const roles = useSelector(selectRoles);
+  const rolesError = useSelector(selectRolesError);
+  const rolesIsLoading = useSelector(selectRolesIsLoading);
 
   useEffect(() => {
-    dispatch(fetchMessagesStarted());
+    dispatch(fetchRolesStarted());
   }, []);
-
-  console.log({ messageEdges });
-  console.log({ messageError });
 
   return (
     <Card>
       <CardHeader>
-        <Heading size='lg'>Messages :)</Heading>
+        <Heading size='lg'>Roles :)</Heading>
       </CardHeader>
       <CardBody>
-        {messageIsLoading ? (
+        {rolesIsLoading ? (
           <Spinner />
-        ) : messageError ? (
+        ) : rolesError ? (
           <Alert status='error'>
             <AlertIcon /> <AlertTitle>Error: </AlertTitle>{' '}
-            <AlertDescription>{messageError.message}</AlertDescription>
+            <AlertDescription>{rolesError.message}</AlertDescription>
           </Alert>
         ) : (
           <Stack divider={<StackDivider />} spacing='4'>
-            {messageEdges.map(({ node, cursor }) => (
+            {roles.map(role => (
               <Box
                 display='flex'
                 flexDirection='column'
                 rowGap={2}
-                key={cursor}
+                key={role.id}
               >
                 <Heading size='sm' textTransform='uppercase'>
-                  Отправитель: {node.sender.username}
+                  Роль: {role.name}
                 </Heading>
                 <Heading size='sm' textTransform='uppercase'>
-                  Получатель: {node.receiver.username}
+                  Пользователи:{' '}
+                  {role.users?.map(user => (
+                    <Text key={user.id}>{user.username}</Text>
+                  ))}
                 </Heading>
-                <Text fontSize='sm'>Сообщение: {node.text}</Text>
               </Box>
             ))}
           </Stack>
@@ -83,6 +79,6 @@ const Messages: FC<PageProps> = () => {
   );
 };
 
-export default Messages;
+export default Roles;
 
 export const Head: HeadFC = () => <SEO />;

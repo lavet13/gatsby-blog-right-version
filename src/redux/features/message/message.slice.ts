@@ -64,9 +64,7 @@ const messagesSlice = createSlice({
         state.messageError = action.payload;
       },
       prepare(error: Error) {
-        return {
-          payload: JSON.stringify(error),
-        };
+        return { payload: JSON.stringify(error) };
       },
     },
 

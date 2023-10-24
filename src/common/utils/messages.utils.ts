@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client';
 import client from '../../apollo/client';
+import { gql } from '@apollo/client';
 
 export const fetchMessages = async () => {
   try {
@@ -34,7 +34,6 @@ export const fetchMessages = async () => {
           }
         }
       `,
-      fetchPolicy: 'network-only',
     });
 
     if (response.error) {

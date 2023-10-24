@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import type { HeadFC, PageProps } from 'gatsby';
 import { Router } from '@reach/router';
 import type { RouteComponentProps } from '@reach/router';
-import useIsClient from '../../hooks/use-is-client';
+import useIsClient from '../../common/hooks/use-is-client';
 
 const Home: FC<RouteComponentProps> = () => {
   return <h1>Home</h1>;
