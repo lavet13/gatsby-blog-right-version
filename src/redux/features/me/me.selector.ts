@@ -8,9 +8,8 @@ export const selectMe = createSelector(
   meSlice => meSlice.me
 );
 
-export const selectMeError = createSelector(
-  [selectMeReducer],
-  meSlice => meSlice.meError
+export const selectMeError = createSelector([selectMeReducer], meSlice =>
+  meSlice.meError ? JSON.parse(meSlice.meError) : null
 );
 
 export const selectMeIsLoading = createSelector(

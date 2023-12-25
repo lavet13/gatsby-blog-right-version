@@ -6,8 +6,11 @@ import {
   fetchMeSucceeded,
   meLoadingReset,
   meErrorsReset,
+  fetchSignInStarted,
+  fetchSignInFailed,
+  fetchSignInSucceeded,
 } from './me.slice';
-import { fetchMe } from '../../../common/utils/me.utils';
+import { fetchMe, getUser } from '../../../common/utils/me.utils';
 
 export function* fetchMeAsync() {
   try {
@@ -18,6 +21,22 @@ export function* fetchMeAsync() {
     yield* put(fetchMeSucceeded(me));
   } catch (error: any) {
     yield* put(fetchMeFailed(error));
+  }
+}
+
+export function* getUserAsync(action: ReturnType<typeof fetchSignInStarted>) {
+  try {
+    const { payload: values } = action;
+
+    const {
+      data: {
+        signIn: { token },
+      },
+    } = yield* call(getUser, values);
+
+    yield* put(fetchSignInSucceeded(token));
+  } catch (error: any) {
+    yield* put(fetchSignInFailed(error));
   }
 }
 
@@ -41,10 +60,25 @@ export function* onFetchMeFailed() {
   yield* takeLatest(fetchMeFailed.type, resetLoadingState);
 }
 
+export function* onFetchSignInStarted() {
+  yield* takeLatest(fetchSignInStarted.type, getUserAsync);
+}
+
+export function* onFetchSignInSucceeded() {
+  yield* takeLatest(fetchSignInSucceeded.type, resetErrorsAndLoadingState);
+}
+
+export function* onFetchSignInFailed() {
+  yield* takeLatest(fetchSignInSucceeded.type, resetLoadingState);
+}
+
 export function* meSagas() {
   yield* all([
     call(onFetchMeStarted),
     call(onFetchMeSucceeded),
     call(onFetchMeFailed),
+    call(onFetchSignInStarted),
+    call(onFetchSignInSucceeded),
+    call(onFetchSignInFailed),
   ]);
 }

@@ -3,17 +3,26 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Me } from './me.types';
 import { rawUserItemType } from '../user/user.types';
 import { formatISO } from 'date-fns';
+import { SignInFormValues } from '../../../pages/sign-in';
 
 export type MeState = {
   me: Me | null;
-  meError: Error | null;
+  meError: string | null;
   meIsLoading: boolean;
+  signInIsLoading: boolean;
+  signInError: string | null;
+  token?: string;
 };
 
 const initialState: MeState = {
   me: null,
   meError: null,
   meIsLoading: false,
+
+  signInIsLoading: false,
+  signInError: null,
+
+  token: undefined,
 };
 
 const meSlice = createSlice({
@@ -44,16 +53,46 @@ const meSlice = createSlice({
       },
     },
 
-    fetchMeFailed(state, action: PayloadAction<MeState['meError']>) {
-      state.meError = action.payload;
+    fetchMeFailed: {
+      reducer(state, action: PayloadAction<MeState['meError']>) {
+        state.meError = action.payload;
+      },
+
+      prepare(error: Error) {
+        return {
+          payload: JSON.stringify(error),
+        };
+      },
+    },
+
+    fetchSignInStarted(state, _: PayloadAction<SignInFormValues>) {
+      state.signInIsLoading = true;
+    },
+
+    fetchSignInSucceeded(state, action: PayloadAction<string>) {
+      state.token = action.payload;
+    },
+
+    fetchSignInFailed: {
+      reducer(state, action: PayloadAction<string>) {
+        state.signInError = action.payload;
+      },
+
+      prepare(error: Error) {
+        return {
+          payload: JSON.stringify(error),
+        };
+      },
     },
 
     meErrorsReset(state) {
       state.meError = null;
+      state.signInError = null;
     },
 
     meLoadingReset(state) {
       state.meIsLoading = false;
+      state.signInIsLoading = false;
     },
   },
 });
@@ -64,6 +103,11 @@ export const {
   fetchMeStarted,
   fetchMeSucceeded,
   fetchMeFailed,
+
+  fetchSignInStarted,
+  fetchSignInFailed,
+  fetchSignInSucceeded,
+
   meErrorsReset,
   meLoadingReset,
 } = meSlice.actions;

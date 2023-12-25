@@ -34,6 +34,7 @@ export const fetchMessages = async () => {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
 
     if (response.error) {

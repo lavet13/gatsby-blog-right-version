@@ -1,9 +1,7 @@
 import { Box, Container } from '@chakra-ui/react';
 import React, { FC, PropsWithChildren } from 'react';
 
-import { Slice } from 'gatsby';
-import useIsClient from '../common/hooks/use-is-client';
-import Header from './header';
+import Header from './header.component';
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (

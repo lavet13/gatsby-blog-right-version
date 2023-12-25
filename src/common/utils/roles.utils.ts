@@ -17,6 +17,7 @@ export const fetchRoles = async () => {
           }
         }
       `,
+      fetchPolicy: 'network-only',
     });
 
     if (response.error) {

@@ -12,6 +12,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { RetryLink } from '@apollo/client/link/retry';
+import { store } from '../redux/store';
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -31,27 +32,33 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const retryLink = new RetryLink();
 
-// const link = split(
-//   ({ query }) => {
-//     const definition = getMainDefinition(query);
+const wsLink =
+  typeof window !== 'undefined'
+    ? new GraphQLWsLink(createClient({ url: 'ws://localhost:4000/graphql' }))
+    : null;
 
-//     return (
-//       definition.kind === 'OperationDefinition' &&
-//       definition.operation === 'subscription'
-//     );
-//   },
-//   new GraphQLWsLink(
-//     createClient({
-//       url: 'ws://localhost:4000/graphql',
-//     })
-//   ),
-//   new HttpLink({ uri: 'http://localhost:4000/graphql', fetch })
-// );
+const httpLink = new HttpLink({ uri: `http://localhost:4000/graphql`, fetch });
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000/graphql', fetch });
+const link =
+  typeof window !== 'undefined' && wsLink !== null
+    ? split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+
+          return (
+            definition.kind === 'OperationDefinition' &&
+            definition.operation === 'subscription'
+          );
+        },
+        wsLink,
+        httpLink
+      )
+    : httpLink;
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
+  const state = store.getState();
+  const token = state.me.token;
+  // somehow I should get token out of persist:user
   console.log({ token });
 
   return {
@@ -65,9 +72,8 @@ const authLink = setContext((_, { headers }) => {
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  ssrMode: true,
   cache,
-  link: from([errorLink, retryLink, authLink, httpLink]),
+  link: from([errorLink, retryLink, authLink, link]),
   defaultOptions: {
     watchQuery: {
       notifyOnNetworkStatusChange: true,

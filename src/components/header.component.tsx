@@ -12,6 +12,12 @@ const Header: FC = () => {
   return (
     <Flex key={key} as='nav' justifyContent='flex-end' alignItems='center'>
       <Flex columnGap={3} pr={2}>
+        <Link as={GatsbyLink} to='/sign-up'>
+          sign-in
+        </Link>
+        <Link as={GatsbyLink} to='/sign-in'>
+          sign-in
+        </Link>
         <Link as={GatsbyLink} to='/my-page'>
           my page
         </Link>
